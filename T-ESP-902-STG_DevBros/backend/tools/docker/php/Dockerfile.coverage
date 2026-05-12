@@ -1,0 +1,39 @@
+# tools/docker/php/Dockerfile.coverage
+FROM php:8.4-cli
+
+RUN apt-get update && apt-get install -y \
+    git unzip zip libzip-dev libicu-dev libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) intl zip pdo pdo_mysql gd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+# Ne pas recharger xdebug, juste config
+RUN printf "xdebug.mode=off\n\
+    xdebug.start_with_request=yes\n\
+    xdebug.discover_client_host=true\n\
+    xdebug.client_port=9003\n\
+    xdebug.log_level=0\n" > /usr/local/etc/php/conf.d/docker-xdebug.ini
+
+# Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /app
+
+# 1) deps d'abord (cache), mais sans scripts Laravel (artisan pas encore là)
+COPY composer.json composer.lock ./
+RUN composer install --no-interaction --no-progress --no-scripts
+
+# 2) maintenant on copie le code
+COPY . .
+
+# 3) dossiers Laravel + droits pour cache/coverage
+RUN mkdir -p storage bootstrap/cache \
+    && chmod -R 777 storage bootstrap/cache
+
+# 4) On peut lancer les scripts maintenant
+RUN php artisan package:discover --ansi || true
+
+CMD ["php", "-a"]

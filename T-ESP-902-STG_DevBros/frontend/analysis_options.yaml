@@ -1,0 +1,49 @@
+# analysis_options.yaml
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.mocks.dart"
+    - "**/generated_plugin_registrant.dart"
+
+  errors:
+    missing_return: error
+    dead_code: warning
+    unused_import: warning
+    unused_local_variable: warning
+    invalid_assignment: error
+    unnecessary_cast: warning
+    unnecessary_this: warning
+
+linter:
+  rules:
+    prefer_single_quotes: true
+    lines_longer_than_80_chars: false
+    always_use_package_imports: true
+    curly_braces_in_flow_control_structures: true
+    avoid_empty_else: true
+    unnecessary_brace_in_string_interps: true
+    avoid_null_checks_in_equality_operators: true
+    constant_identifier_names: false
+    non_constant_identifier_names: false
+    public_member_api_docs: false
+    prefer_final_locals: true
+    prefer_final_in_for_each: true
+    unnecessary_null_checks: true
+    avoid_print: true
+    avoid_redundant_argument_values: true
+    unnecessary_this: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    use_key_in_widget_constructors: true
+    sized_box_for_whitespace: true
+    avoid_unnecessary_containers: true
+    unawaited_futures: true
+    avoid_types_on_closure_parameters: false
+    directives_ordering: true
+    prefer_expression_function_bodies: false
+    sort_constructors_first: true
+    prefer_interpolation_to_compose_strings: true
+    omit_local_variable_types: false

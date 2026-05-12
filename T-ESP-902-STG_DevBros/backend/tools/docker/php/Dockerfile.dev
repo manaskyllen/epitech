@@ -1,0 +1,46 @@
+FROM php:8.4-fpm-alpine
+
+RUN apk add --no-cache \
+    postgresql-client \
+    netcat-openbsd \
+    bash \
+    git \
+    unzip \
+    curl \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libxml2-dev \
+    oniguruma-dev \
+    postgresql-dev \
+    nodejs \
+    npm \
+    && docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    pdo_pgsql \
+    mbstring \
+    zip \
+    exif \
+    pcntl \
+    bcmath \
+    gd
+
+RUN apk add --no-cache autoconf \
+    dpkg-dev dpkg \
+    file g++ gcc libc-dev make pkgconf re2c \
+    linux-headers \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+COPY ./php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

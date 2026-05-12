@@ -1,0 +1,30 @@
+[
+  {
+    "id": "tshirt_basic",
+    "name": "T-shirt basic",
+    "path": "/assets/clothes/top/tshirt.glb",
+    "category": "top",
+    "slots": ["top"]
+  },
+  {
+    "id": "sweatshirt_basic",
+    "name": "Sweatshirt basic",
+    "path": "/assets/clothes/top/sweatshirt.glb",
+    "category": "top",
+    "slots": ["top"]
+  },
+  {
+    "id": "jeans_basic",
+    "name": "Jeans basic",
+    "path": "/assets/clothes/bottom/jeans.glb",
+    "category": "bottom",
+    "slots": ["bottom"]
+  },
+  {
+    "id": "shoes_basic",
+    "name": "Shoes basic",
+    "path": "/assets/clothes/shoes/shoes.glb",
+    "category": "shoes",
+    "slots": ["shoes"]
+  }
+]

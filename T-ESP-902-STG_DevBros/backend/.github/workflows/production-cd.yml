@@ -1,0 +1,115 @@
+name: Deploy Inspiria API to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Build and deploy to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
+
+      - name: Build and push API image
+        run: |
+          docker build \
+            --file tools/docker/php/Dockerfile.prod \
+            --tag ghcr.io/inspiria-corp/backend:${{ github.sha }} \
+            .
+
+          docker push ghcr.io/inspiria-corp/backend:${{ github.sha }}
+
+      - name: Build and push Python API image
+        run: |
+          docker build \
+            --file python-api/Dockerfile \
+            --tag ghcr.io/inspiria-corp/backend-python-api:${{ github.sha }} \
+            python-api
+
+          docker push ghcr.io/inspiria-corp/backend-python-api:${{ github.sha }}
+
+      - name: Build and push Nginx image
+        run: |
+          docker build \
+            --file tools/docker/nginx/Dockerfile \
+            --tag ghcr.io/inspiria-corp/nginx:${{ github.sha }} \
+            .
+
+          docker push ghcr.io/inspiria-corp/nginx:${{ github.sha }}
+
+      - name: Update Dokploy production IMAGE_TAG
+        run: |
+          set -euo pipefail
+
+          CURRENT_ENV="$(
+            curl --fail --show-error --silent \
+              -H "accept: application/json" \
+              -H "x-api-key: ${{ secrets.DOKPLOY_TOKEN }}" \
+              "${{ secrets.DOKPLOY_URI }}/api/compose.one?composeId=${{ secrets.DOKPLOY_PRODUCTION_COMPOSE_ID }}" \
+            | jq -r '.env // empty'
+          )"
+
+          if [ -z "$CURRENT_ENV" ]; then
+            echo "Unable to read current Dokploy compose environment"
+            exit 1
+          fi
+
+          UPDATED_ENV="$(
+            printf '%s\n' "$CURRENT_ENV" | awk -v tag="${{ github.sha }}" '
+              BEGIN { updated = 0 }
+              /^IMAGE_TAG=/ {
+                print "IMAGE_TAG=" tag
+                updated = 1
+                next
+              }
+              { print }
+              END {
+                if (!updated) {
+                  print "IMAGE_TAG=" tag
+                }
+              }
+            '
+          )"
+
+          jq -n \
+            --arg composeId "${{ secrets.DOKPLOY_PRODUCTION_COMPOSE_ID }}" \
+            --arg env "$UPDATED_ENV" \
+            '{composeId: $composeId, env: $env}' \
+          > /tmp/dokploy-compose-env.json
+
+          STATUS_CODE="$(
+            curl --silent --show-error --output /tmp/dokploy-save-env-response.json --write-out "%{http_code}" \
+              -X POST "${{ secrets.DOKPLOY_URI }}/api/compose.saveEnvironment" \
+              -H "accept: application/json" \
+              -H "Content-Type: application/json" \
+              -H "x-api-key: ${{ secrets.DOKPLOY_TOKEN }}" \
+              -d @/tmp/dokploy-compose-env.json
+          )"
+
+          if [ "$STATUS_CODE" = "404" ]; then
+            echo "Dokploy endpoint compose.saveEnvironment is unavailable, falling back to compose.update"
+
+            curl --fail --show-error --silent -X POST "${{ secrets.DOKPLOY_URI }}/api/compose.update" \
+              -H "accept: application/json" \
+              -H "Content-Type: application/json" \
+              -H "x-api-key: ${{ secrets.DOKPLOY_TOKEN }}" \
+              -d @/tmp/dokploy-compose-env.json
+          elif [ "$STATUS_CODE" -lt 200 ] || [ "$STATUS_CODE" -ge 300 ]; then
+            echo "Dokploy compose.saveEnvironment failed with HTTP $STATUS_CODE"
+            cat /tmp/dokploy-save-env-response.json
+            exit 1
+          fi
+
+      - name: Trigger Dokploy production deploy
+        run: |
+          curl --fail --show-error --silent -X POST "${{ secrets.DOKPLOY_URI }}/api/compose.deploy" \
+            -H "accept: application/json" \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: ${{ secrets.DOKPLOY_TOKEN }}" \
+            -d "{\"composeId\":\"${{ secrets.DOKPLOY_PRODUCTION_COMPOSE_ID }}\"}"

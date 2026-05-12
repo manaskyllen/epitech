@@ -1,0 +1,75 @@
+version: "3.9"
+
+services:
+  api:
+    image: ghcr.io/inspiria-corp/backend:staging
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      APP_ENV: staging
+      APP_DEBUG: "true"
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      MINIO_KEY: ${MINIO_KEY}
+      MINIO_SECRET: ${MINIO_SECRET}
+    volumes:
+      - staging_shared_data:/var/www/html/storage/app/shared_data
+    networks:
+      - staging_inspiria
+
+  nginx:
+    image: ghcr.io/inspiria-corp/nginx:staging
+    restart: unless-stopped
+    depends_on:
+      - api
+    networks:
+      - staging_inspiria
+      - dokploy-network
+
+  db:
+    image: postgres:17.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - staging_db_data:/var/lib/postgresql/data
+    networks:
+      - staging_inspiria
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET}
+    command: server --console-address ":9001" /data
+    volumes:
+      - staging_minio_data:/data
+    networks:
+      - staging_inspiria
+
+  python-service:
+    image: ghcr.io/inspiria-corp/backend-python-api:staging
+    restart: unless-stopped
+    volumes:
+      - staging_shared_data:/app/shared
+    networks:
+      - staging_inspiria
+
+networks:
+  staging_inspiria:
+    driver: overlay
+  dokploy-network:
+    external: true
+
+volumes:
+  staging_db_data:
+  staging_minio_data:
+  staging_shared_data:

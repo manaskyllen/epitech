@@ -1,0 +1,23 @@
+{
+  "palette": [
+    { "name": "Noir",           "hex": "#000000", "family": "Noir" },
+    { "name": "Blanc",          "hex": "#FFFFFF", "family": "Blanc" },
+    { "name": "Gris",           "hex": "#808080", "family": "Gris" },
+    { "name": "Beige",          "hex": "#F5F5DC", "family": "Beige" },
+    { "name": "Marron",         "hex": "#8B4513", "family": "Marron" },
+    { "name": "Rouge",          "hex": "#FF0000", "family": "Rouge" },
+    { "name": "Rouge foncé",    "hex": "#8B0000", "family": "Rouge" },
+    { "name": "Bordeaux",       "hex": "#800020", "family": "Rouge" },
+    { "name": "Rouge clair",    "hex": "#FF6666", "family": "Rouge" },
+    { "name": "Rose",           "hex": "#FFC0CB", "family": "Rose"  },
+    { "name": "Orange",         "hex": "#FFA500", "family": "Orange"},
+    { "name": "Jaune",          "hex": "#FFFF00", "family": "Jaune" },
+    { "name": "Vert",           "hex": "#00FF00", "family": "Vert"  },
+    { "name": "Vert foncé",     "hex": "#006400", "family": "Vert"  },
+    { "name": "Bleu",           "hex": "#0000FF", "family": "Bleu"  },
+    { "name": "Bleu marine",    "hex": "#003366", "family": "Bleu"  },
+    { "name": "Cyan",           "hex": "#00FFFF", "family": "Bleu"  },
+    { "name": "Violet",         "hex": "#800080", "family": "Violet"},
+    { "name": "Lavande",        "hex": "#E6E6FA", "family": "Violet"}
+  ]
+}

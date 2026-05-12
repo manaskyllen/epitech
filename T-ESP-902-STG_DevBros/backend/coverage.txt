@@ -1,0 +1,144 @@
+Cannot load Xdebug - it was already loaded
+Cannot load Xdebug - it was already loaded
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+
+   PASS  Tests\Unit\Ai\Agents\ImageAgentTest
+  ✓ instructions return expected text                                    0.17s  
+  ✓ messages and tools are empty                                         0.06s  
+  ✓ schema defines success validation and data                           0.07s  
+
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true                                                    0.02s  
+
+   PASS  Tests\Unit\Http\Controllers\AiControllerTest
+  ✓ analyze clothing image returns service response json                 0.08s  
+  ✓ analyze clothing image validates file input                          0.06s  
+
+   PASS  Tests\Unit\Services\AiServiceTest
+  ✓ inspect clothing file forwards request to image agent                0.07s  
+
+   PASS  Tests\Unit\Services\WeatherServiceTest
+  ✓ return aggregated weather data when api success                      0.09s  
+  ✓ return seasonal fallback when api fails                              0.07s  
+  ✓ return winter seasonal average for january                           0.06s  
+  ✓ return spring seasonal average for april                             0.06s  
+  ✓ return summer seasonal average for july                              0.06s  
+  ✓ return default seasonal average for autumn                           0.06s  
+  ✓ return seasonal fallback when http throws exception                  0.06s  
+
+   PASS  Tests\Feature\AddressTest
+  ✓ index                                                                0.21s  
+  ✓ show                                                                 0.07s  
+  ✓ get address by user id                                               0.07s  
+  ✓ store                                                                0.07s  
+  ✓ update                                                               0.08s  
+  ✓ delete                                                               0.07s  
+
+   PASS  Tests\Feature\ClothingModelTest
+  ✓ index                                                                0.09s  
+  ✓ index returns 404 when no models                                     0.07s  
+  ✓ get model file returns minio file response                           0.07s  
+  ✓ get model file returns local storage file response                   0.17s  
+  ✓ get model file returns not configured when model path empty          0.07s  
+  ✓ get model file returns file not found when resolution fails          0.27s  
+  ✓ show                                                                 0.07s  
+  ✓ store with valid glb file                                            0.08s  
+  ✓ store without file                                                   0.07s  
+  ✓ store with invalid file type                                         0.07s  
+  ✓ store with invalid glb structure                                     0.07s  
+  ✓ store with file too large                                            0.07s  
+  ✓ store with default slots                                             0.07s  
+  ✓ store requires authentication                                        0.07s  
+  ✓ update                                                               0.07s  
+  ✓ destroy                                                              0.07s  
+  ✓ show returns 404 when not found                                      0.07s  
+  ✓ update returns 404 when not found                                    0.07s  
+  ✓ destroy returns 404 when not found                                   0.07s  
+  ✓ get model file returns url file response                             0.13s  
+  ✓ get assets returns 200                                               0.07s  
+  ✓ get assets returns 404 when model missing                            0.07s  
+
+   PASS  Tests\Feature\ClothingTest
+  ✓ index                                                                0.10s  
+  ✓ show                                                                 0.07s  
+  ✓ update                                                               0.07s  
+  ✓ show returns 404 when not found                                      0.07s  
+  ✓ index returns 404 when empty                                         0.07s  
+  ✓ get clothing by user id returns 404 when user does not exist         0.07s  
+  ✓ get clothing by user id returns 404 when user has no clothing        0.07s  
+  ✓ get clothing by user id returns items                                0.07s  
+  ✓ ai result returns 200 on success                                     0.07s  
+  ✓ ai result returns 500 on failure                                     0.07s  
+  ✓ store creates clothing and model                                     0.26s  
+  ✓ update returns 404 when not found                                    0.07s  
+  ✓ destroy returns 404 when not found                                   0.07s  
+  ✓ destroy                                                              0.07s  
+
+   PASS  Tests\Feature\FavoriteTest
+  ✓ index                                                                0.09s  
+  ✓ show                                                                 0.07s  
+  ✓ store                                                                0.07s  
+  ✓ update                                                               0.07s  
+  ✓ destroy                                                              0.07s  
+  ✓ index returns 404 when empty                                         0.07s  
+  ✓ show returns 404 when not found                                      0.07s  
+  ✓ get favorites by user id returns 404 when user not found             0.07s  
+  ✓ get favorites by user id returns 404 when user has no favorites      0.07s  
+  ✓ get favorites by user id returns items                               0.08s  
+  ✓ update returns 404 when not found                                    0.07s  
+  ✓ destroy returns 404 when not found                                   0.07s  
+
+   PASS  Tests\Feature\OutfitItemTest
+  ✓ store                                                                0.08s  
+  ✓ destroy                                                              0.07s  
+
+   PASS  Tests\Feature\OutfitTest
+  ✓ index                                                                0.08s  
+  ✓ show                                                                 0.07s  
+  ✓ store                                                                0.07s  
+  ✓ update                                                               0.07s  
+  ✓ destroy                                                              0.07s  
+  ✓ index returns 404 when empty                                         0.07s  
+  ✓ show returns 404 when not found                                      0.07s  
+  ✓ get outfits by user id returns 404 when user not found               0.07s  
+  ✓ get outfits by user id returns items                                 0.07s  
+  ✓ get clothing by outfit id returns 404 when no items                  0.07s  
+  ✓ get clothing by outfit id returns items                              0.07s  
+
+   PASS  Tests\Feature\SuitcaseControllerTest
+  ✓ list user suitcases                                                  0.10s  
+  ✓ create a suitcase and calls weather and generator services           0.07s  
+  ✓ show a single suitcase                                               0.10s  
+  ✓ return 404 if suitcase not found                                     0.07s  
+  ✓ update a suitcase                                                    0.07s  
+  ✓ delete a suitcase                                                    0.07s  
+  ✓ add clothing to suitcase                                             0.07s  
+  ✓ remove clothing from suitcase                                        0.08s  
+  ✓ add clothing returns 404 when suitcase not found                     0.07s  
+  ✓ remove clothing returns 404 when suitcase not found                  0.07s  
+
+   PASS  Tests\Feature\UserTest
+  ✓ index                                                                0.08s  
+  ✓ store                                                                0.10s  
+  ✓ show                                                                 0.07s  
+  ✓ update                                                               0.07s  
+  ✓ destroy                                                              0.07s  
+
+  Tests:    96 passed (163 assertions)
+  Duration: 7.70s
+
+  Ai/Agents/ImageAgent .......................................................................................................... 100.0%  
+  Http/Controllers/AddressController ................................................................... 23, 34, 45, 51, 78, 100 / 86.0%  
+  Http/Controllers/AiController ................................................................................................. 100.0%  
+  Http/Controllers/ClothingController ........................................................................................... 100.0%  
+  Http/Controllers/ClothingModelController ........................................................ 126, 156, 163, 190..206, 207 / 86.2%  
+  Http/Controllers/FavoriteController ........................................................................................... 100.0%  
+  Http/Controllers/OutfitController ................................................................................. 50, 74, 92 / 92.9%  
+  Http/Controllers/OutfitItemController ..................................................................................... 36 / 91.7%  
+  Http/Controllers/SuitcaseController ................................................................................. 141, 171 / 97.3%  
+  Http/Controllers/UserController ............................................................................... 21, 32, 61, 85 / 90.0%  
+  Service/GlbService ................................................................................................ 27, 31, 38 / 83.3%  
+  Services/AiService ............................................................................................................ 100.0%  
+  Services/WeatherService ....................................................................................................... 100.0%  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────  
+                                                                                                                           Total: 93.9 %  

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Fitting Room - Version Locale</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #2c3e50; font-family: 'Segoe UI', sans-serif; }
+        #ui {
+            position: absolute; top: 20px; left: 20px; width: 250px;
+            background: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .control-group { margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: #666; font-weight: bold; margin-bottom: 5px; }
+        input[type=range] { width: 100%; cursor: pointer; }
+        button {
+            width: 100%; padding: 10px; background: #3490dc; color: white;
+            border: none; border-radius: 6px; font-weight: bold; cursor: pointer;
+        }
+        button:hover { background: #1d68a7; }
+        .stats { font-family: monospace; font-size: 11px; background: #eee; padding: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="ui">
+    <h2 style="margin-top:0; font-size: 18px;">Configuration 3D</h2>
+    <button onclick="equipSweat()">ÉQUIPER LE SWEAT</button>
+</div>
+
+<script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xdddddd);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 1.4, 3);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.body.appendChild(renderer.domElement);
+
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.5);
+    scene.add(hemiLight);
+
+    const sunLight = new THREE.DirectionalLight(0xffffff, 1);
+    sunLight.position.set(5, 5, 5);
+    scene.add(sunLight);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 1, 0);
+    controls.update();
+
+    const loader = new GLTFLoader();
+    let sweat = null;
+
+    loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Xbot.glb', (gltf) => {
+        const mannequin = gltf.scene;
+
+        mannequin.traverse((node) => {
+            if (node.isBone) {
+                if (node.name === "mixamorigLeftArm") {
+                    node.rotation.z = -1.05;
+                    node.rotation.y = -0.30;
+                    node.rotation.x = 0.1;
+                }
+                if (node.name === "mixamorigLeftForeArm") {
+                    node.rotation.y = -0.3;
+                    node.rotation.x = 0.3;
+                }
+
+                if (node.name === "mixamorigRightArm") {
+                    node.rotation.z = 1.05;
+                    node.rotation.y = 0.35;
+                    node.rotation.x = 0.1;
+                }
+                if (node.name === "mixamorigRightForeArm") {
+                    node.rotation.y = 0.2;
+                    node.rotation.x = 0.2;
+                }
+            }
+        });
+
+
+        scene.add(mannequin);
+    });
+
+    window.equipSweat = function() {
+        if(sweat) scene.remove(sweat);
+
+        loader.load('/templates/sweat.glb', (gltf) => {
+            sweat = gltf.scene;
+
+            sweat.position.set(0, 0.80, 0.01);
+            sweat.scale.set(1, 1, 1);
+
+            sweat.traverse((node) => {
+                if (node.isMesh) {
+                    node.material.color.set("grey");
+                    node.material.roughness = 1.5;
+                    node.material.side = THREE.DoubleSide;
+                }
+            });
+
+            scene.add(sweat);
+            console.log("Sweat chargé avec succès !");
+        }, undefined, (error) => {
+            console.error("Erreur lors du chargement du GLB :", error);
+        });
+    };
+
+    window.updateValues = function() {
+        if(!sweat) return;
+
+        const y = document.getElementById('yPos').value;
+        const s = document.getElementById('scale').value;
+        const z = document.getElementById('zPos').value;
+
+        sweat.position.set(0, parseFloat(y), parseFloat(z));
+        sweat.scale.set(parseFloat(s), parseFloat(s), parseFloat(s));
+
+        document.getElementById('current-stats').innerText = `Valeurs : Y: ${y}, S: ${s}, Z: ${z}`;
+    };
+
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+</body>
+</html>

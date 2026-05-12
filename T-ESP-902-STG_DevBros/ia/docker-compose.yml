@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - USE_CUDA=1
+      - MODEL_PATH=/app/artifacts/models/model_multitask.pt
+      - ENCODERS_PATH=/app/artifacts/encoders/encoders_multitask.pkl
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./logs:/app/logs
+    deploy:
+      resources: {}
+    restart: unless-stopped

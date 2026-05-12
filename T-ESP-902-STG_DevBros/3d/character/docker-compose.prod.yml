@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  character-3d:
+    image: ghcr.io/inspiria-corp/3d:latest
+    restart: unless-stopped
+    ports:
+      - "8080:80"

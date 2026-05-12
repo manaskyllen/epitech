@@ -1,0 +1,55 @@
+name: Inspiria App Production CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.32.0"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup analysis_options.yaml
+        run: |
+          cp analysis_options_prod.yaml analysis_options.yaml
+          
+      - name: Create .env file for analysis
+        run: |
+          cp .env.example .env || echo "API_KEY=dummy" > .env
+
+      - name: Analyze (Lint)
+        run: flutter analyze
+
+      - name: Run Tests
+        run: flutter test --coverage
+
+  #    - name: Build APK (Android)
+  #      run: flutter build apk --debug
+
+  #    - name: Build iOS (IPA)
+  #      if: runner.os == 'macOS'
+  #      run: flutter build ios --debug
+
+  #     - name: Archive build artifacts
+  #       if: success()
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: build-artifacts
+  #         path: |
+  #           build/app/outputs/flutter-apk/app-debug.apk
+  #           build/ios/iphoneos/Runner.app
+      - name: Complete
+        run: echo "✅ Pipeline terminée avec succès"

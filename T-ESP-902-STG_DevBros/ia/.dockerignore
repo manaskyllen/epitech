@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+.env.local
+*.log
+data/
+!data/
+!data/metadata/
+!data/metadata/colors.json
+models/
+*.pth
+.DS_Store
+.git

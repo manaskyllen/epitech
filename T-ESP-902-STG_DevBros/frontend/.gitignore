@@ -1,0 +1,151 @@
+# -------------------------
+# OS / Editors / Misc
+# -------------------------
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+.gradle/
+captures/
+
+# VS Code
+.vscode/
+
+# -------------------------
+# Flutter / Dart / Pub
+# -------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+/coverage/
+**/doc/api/
+.metadata
+
+# Pub lockfile
+pubspec.lock
+
+# -------------------------
+# iOS - Fichiers à ignorer
+# -------------------------
+# Pods (dépendances)
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Podfile.lock
+
+# Flutter générés (mais pas le dossier entier !)
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/flutter_export_environment.sh
+
+# Xcode user data (préférences perso)
+**/ios/**/xcuserdata/
+**/ios/**/*.xcuserdatad
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+
+# Build artifacts
+**/ios/**/DerivedData/
+**/ios/**/build/
+**/ios/**/.generated/
+**/ios/**/profile
+
+# Autres fichiers générés
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+
+# -------------------------
+# Android
+# -------------------------
+**/android/.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/key.properties
+**/android/*.iml
+**/android/**/build/
+
+# -------------------------
+# macOS
+# -------------------------
+**/macos/Pods/
+**/macos/Podfile.lock
+**/macos/Flutter/ephemeral/
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+**/macos/Flutter/Flutter-Generated.xcconfig
+**/macos/**/xcuserdata/
+**/macos/**/build/
+
+# -------------------------
+# Windows
+# -------------------------
+**/windows/flutter/generated_plugin_registrant.cc
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugins.cmake
+**/windows/**/build/
+
+# -------------------------
+# Linux
+# -------------------------
+**/linux/flutter/generated_plugin_registrant.cc
+**/linux/flutter/generated_plugin_registrant.h
+**/linux/flutter/generated_plugins.cmake
+**/linux/**/build/
+
+# -------------------------
+# Web
+# -------------------------
+lib/generated_plugin_registrant.dart
+
+# -------------------------
+# Obfuscation / Symbolication
+# -------------------------
+app.*.symbols
+app.*.map.json
+
+# -------------------------
+# Env files
+# -------------------------
+.env
+.env.local
+.env.production
+.env.development
+
+# -------------------------
+# Exceptions (fichiers à garder)
+# -------------------------
+!**/ios/**/default.mode1v3
+!**/ios/**/default.mode2v3
+!**/ios/**/default.pbxuser
+!**/ios/**/default.perspectivev3
+
+.vscode/
+.idea/

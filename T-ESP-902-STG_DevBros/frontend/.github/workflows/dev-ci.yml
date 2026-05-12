@@ -1,0 +1,88 @@
+name: Inspiria App Development CI Pipeline
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      MIN_COVERAGE: 50
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.32.0"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup analysis_options.yaml
+        run: |
+          cp analysis_options_dev.yaml analysis_options.yaml
+
+      - name: Create .env file for analysis
+        run: |
+          cp .env.example .env || echo "API_KEY=dummy" > .env
+
+      - name: Analyze (Lint)
+        run: flutter analyze
+
+      - name: Run tests with coverage
+        run: flutter test --coverage
+
+      - name: Clean coverage report
+        run: |
+          lcov --ignore-errors unused -r coverage/lcov.info \
+            "*/__test*__/*" \
+            "*/__mock*__/*" \
+            "lib/**/**.g.dart" \
+            "lib/**.realm_schema.dart" \
+            "lib/**/*.freezed.dart" \
+            "lib/**/*.gen.dart" \
+            "lib/**/*.gr.dart" \
+            "lib/**/*.config.dart" \
+            "lib/**/generated/*" \
+            -o coverage/lcov_cleaned.info
+
+      - name: Generate HTML coverage report
+        run: |
+          genhtml -o coverage/html coverage/lcov_cleaned.info > coverage/output.txt
+          cat coverage/output.txt
+
+      - name: Check minimum coverage
+        run: |
+          COVERAGE=$(grep lines coverage/output.txt | awk '{print $2}' | cut -d'.' -f1)
+          COVERAGE=${COVERAGE%\%}
+          COVERAGE=$((COVERAGE + 0))
+
+          echo "Coverage detected: ${COVERAGE}%"
+          echo "Minimum required: ${MIN_COVERAGE}%"
+
+          if [ "$COVERAGE" -lt "$MIN_COVERAGE" ]; then
+            echo "Coverage is below threshold"
+            exit 1
+          fi
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage/lcov.info
+            coverage/lcov_cleaned.info
+            coverage/output.txt
+            coverage/html

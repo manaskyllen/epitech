@@ -1,0 +1,515 @@
+name: Suitcases
+description: "Gestion des valises de l'utilisateur (CRUD + vêtements)."
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/suitcases
+    metadata:
+      groupName: Suitcases
+      groupDescription: "Gestion des valises de l'utilisateur (CRUD + vêtements)."
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Liste toutes les valises de l'utilisateur"
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            {
+              "id": 1,
+              "name": "Voyage Paris",
+              "departure_date": "2025-10-28",
+              "end_date": "2025-10-30",
+              "destination": "Paris",
+              "clothings": [...]
+            }
+          }
+        headers: []
+        description: success
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer f8keDPhbg6vEaVc53aZ46d1'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/suitcase
+    metadata:
+      groupName: Suitcases
+      groupDescription: "Gestion des valises de l'utilisateur (CRUD + vêtements)."
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Créer une valise et générer les vêtements recommandés'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Nom de la valise.'
+        required: true
+        example: 'Vacances Paris'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+      departure_date:
+        name: departure_date
+        description: 'Date de départ.'
+        required: true
+        example: '2025-10-28'
+        type: date
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+      end_date:
+        name: end_date
+        description: 'Date de retour.'
+        required: true
+        example: '2025-10-30'
+        type: date
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+      destination:
+        name: destination
+        description: Destination.
+        required: true
+        example: Paris
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: 'Vacances Paris'
+      departure_date: '2025-10-28'
+      end_date: '2025-10-30'
+      destination: Paris
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: |-
+          {
+            "id": 1,
+            "name": "Vacances Paris",
+            "destination": "Paris",
+            "clothings": [...]
+          }
+        headers: []
+        description: success
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer f8keDPhbg6vEaVc53aZ46d1'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/suitcase/{id}'
+    metadata:
+      groupName: Suitcases
+      groupDescription: "Gestion des valises de l'utilisateur (CRUD + vêtements)."
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Affiche une valise'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: "L'ID de la valise."
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "id": 1,
+            "name": "Vacances Paris",
+            "clothings": [...]
+          }
+        headers: []
+        description: success
+        custom: []
+      -
+        status: 404
+        content: '{"message": "Suitcase not found"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer f8keDPhbg6vEaVc53aZ46d1'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/suitcase/{id}'
+    metadata:
+      groupName: Suitcases
+      groupDescription: "Gestion des valises de l'utilisateur (CRUD + vêtements)."
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Mettre à jour une valise'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'ID de la valise.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Nom de la valise.'
+        required: false
+        example: ab
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      departure_date:
+        name: departure_date
+        description: 'Date de départ.'
+        required: false
+        example: ab
+        type: date
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      end_date:
+        name: end_date
+        description: 'Date de retour.'
+        required: false
+        example: ab
+        type: date
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      destination:
+        name: destination
+        description: Destination.
+        required: false
+        example: ab
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: ab
+      departure_date: ab
+      end_date: ab
+      destination: ab
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "message": "Suitcase updated",
+            "data": {...}
+          }
+        headers: []
+        description: success
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer f8keDPhbg6vEaVc53aZ46d1'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/suitcase/{id}'
+    metadata:
+      groupName: Suitcases
+      groupDescription: "Gestion des valises de l'utilisateur (CRUD + vêtements)."
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Supprimer une valise'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: "L'ID de la valise."
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message": "Valise supprimée avec succès"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: '{"message": "Suitcase not found"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer f8keDPhbg6vEaVc53aZ46d1'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/suitcase/{suitcase_id}/add-clothing'
+    metadata:
+      groupName: Suitcases
+      groupDescription: "Gestion des valises de l'utilisateur (CRUD + vêtements)."
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Ajouter un vêtement à la valise'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      suitcase_id:
+        name: suitcase_id
+        description: 'The ID of the suitcase.'
+        required: true
+        example: ab
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      id:
+        name: id
+        description: 'Id de la valise.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      suitcase_id: ab
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      clothing_id:
+        name: clothing_id
+        description: 'Id du vêtement.'
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      clothing_id: 3
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "message": "Clothe add into suitcase",
+            "suitcase": {...}
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer f8keDPhbg6vEaVc53aZ46d1'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/suitcase/{suitcase_id}/remove-clothing'
+    metadata:
+      groupName: Suitcases
+      groupDescription: "Gestion des valises de l'utilisateur (CRUD + vêtements)."
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Retirer un vêtement d'une valise"
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      suitcase_id:
+        name: suitcase_id
+        description: 'The ID of the suitcase.'
+        required: true
+        example: ab
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      id:
+        name: id
+        description: 'Id de la valise.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      suitcase_id: ab
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      clothing_id:
+        name: clothing_id
+        description: 'Id du vêtement.'
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      clothing_id: 3
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "message": "Clothe remove from suitcase",
+            "suitcase": {...}
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer f8keDPhbg6vEaVc53aZ46d1'
+    controller: null
+    method: null
+    route: null
+    custom: []

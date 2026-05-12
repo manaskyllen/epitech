@@ -1,0 +1,84 @@
+name: CI Pipeline for Inspiria API
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  lint:
+    name: Static analysis with Larastan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions:
+            mbstring, bcmath, gd, zip, xml, curl, fileinfo, openssl, pdo,
+            tokenizer, json, iconv, intl, exif, sqlite3, ldap, imap, mysqli,
+            pdo_mysql, pdo_sqlite, soap, redis, memcached, xdebug
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-scripts
+
+      - name: Run Larastan
+        run: ./vendor/bin/phpstan analyse --memory-limit=512M
+
+  tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    env:
+      COVERAGE_MIN: ${{ vars.COVERAGE_MIN }}
+    needs: lint
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions:
+            mbstring, bcmath, gd, zip, xml, curl, fileinfo, openssl, pdo,
+            tokenizer, json, iconv, intl, exif, sqlite3, ldap, imap, mysqli,
+            pdo_mysql, pdo_sqlite, soap, redis, memcached, xdebug
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-scripts
+
+      - name: Copy .env file
+        run: cp .env.example .env
+
+      - name: Generate app key
+        run: php artisan key:generate
+
+      - name: Run Laravel tests with coverage
+        run: |
+          set -eo pipefail
+          php artisan test --coverage | tee coverage.txt
+
+      - name: Check minimum coverage threshold
+        run: |
+          TOTAL=$(grep -Eo 'Total:\s*[0-9]+(\.[0-9]+)?' coverage.txt | tail -1 | grep -Eo '[0-9]+(\.[0-9]+)?')
+
+          if [ -z "$TOTAL" ]; then
+            echo "Impossible to detect total coverage from output"
+            exit 1
+          fi
+
+          echo "Total coverage: $TOTAL%"
+          echo "Minimum threshold required: $COVERAGE_MIN%"
+
+          awk -v total="$TOTAL" -v min="$COVERAGE_MIN" 'BEGIN { exit !(total >= min) }' || {
+            echo "Insufficient coverage: $TOTAL% < $COVERAGE_MIN%"
+            exit 1
+          }
+
+          echo "Coverage OK : $TOTAL% >= $COVERAGE_MIN%"
