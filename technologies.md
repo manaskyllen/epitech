@@ -2,6 +2,21 @@
 **Note**: This file is generated automatically. Do not edit it manually.<br/>
 **Note**: some extensions are ignored (e.g. .gitignore, .example, .md, .svg, .mp3, .jpg, .txt, .png, .jpeg, .gif, .sh)
 
+## T-AIA-911-STG_1
+| Extension | Occurrences | Percentage |
+| --------- | ----------- | ---------- |
+| css | 5 | 1.83% |
+| csv | 6 | 2.20% |
+| joblib | 2 | 0.73% |
+| js | 35 | 12.82% |
+| json | 8 | 2.93% |
+| php | 89 | 32.60% |
+| py | 55 | 20.15% |
+| ts | 7 | 2.56% |
+| tsx | 31 | 11.36% |
+| woff2 | 20 | 7.33% |
+| yml | 2 | 0.73% |
+
 ## T-CEN-500-STG_11
 | Extension | Occurrences | Percentage |
 | --------- | ----------- | ---------- |
