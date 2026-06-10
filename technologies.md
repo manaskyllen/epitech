@@ -69,6 +69,51 @@
 | --------- | ----------- | ---------- |
 | yaml | 19 | 100.00% |
 
+## T-ESP-902-STG_DevBros
+| Extension | Occurrences | Percentage |
+| --------- | ----------- | ---------- |
+| blend | 4 | 0.60% |
+| blend1 | 3 | 0.45% |
+| cc | 2 | 0.30% |
+| cpp | 4 | 0.60% |
+| css | 9 | 1.34% |
+| csv | 3 | 0.45% |
+| dart | 127 | 18.93% |
+| dockerignore | 2 | 0.30% |
+| entitlements | 2 | 0.30% |
+| glb | 15 | 2.24% |
+| h | 6 | 0.89% |
+| html | 4 | 0.60% |
+| ico | 2 | 0.30% |
+| ini | 3 | 0.45% |
+| js | 33 | 4.92% |
+| json | 14 | 2.09% |
+| jsx | 3 | 0.45% |
+| kts | 3 | 0.45% |
+| pbxproj | 2 | 0.30% |
+| php | 195 | 29.06% |
+| pkl | 2 | 0.30% |
+| plist | 7 | 1.04% |
+| prod | 2 | 0.30% |
+| properties | 2 | 0.30% |
+| pt | 6 | 0.89% |
+| py | 38 | 5.66% |
+| pyc | 3 | 0.45% |
+| storyboard | 2 | 0.30% |
+| stub | 4 | 0.60% |
+| swift | 5 | 0.75% |
+| ts | 14 | 2.09% |
+| tsx | 44 | 6.56% |
+| ttf | 18 | 2.68% |
+| woff2 | 7 | 1.04% |
+| xcconfig | 8 | 1.19% |
+| xcscheme | 2 | 0.30% |
+| xcsettings | 2 | 0.30% |
+| xcworkspacedata | 3 | 0.45% |
+| xml | 8 | 1.19% |
+| yaml | 29 | 4.32% |
+| yml | 13 | 1.94% |
+
 ## T-JAV-500_msc2026
 | Extension | Occurrences | Percentage |
 | --------- | ----------- | ---------- |
